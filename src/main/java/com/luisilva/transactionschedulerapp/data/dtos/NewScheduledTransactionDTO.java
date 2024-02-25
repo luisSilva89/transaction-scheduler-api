@@ -11,15 +11,13 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ScheduledTransactionDTO {
-
+public class NewScheduledTransactionDTO {
 
     private Long id;
     private Long clientAccountId;
     private double amount;
     private LocalDate dueDate;
     private String transactionType;
-    private double fee;
     private String status;
 
 }

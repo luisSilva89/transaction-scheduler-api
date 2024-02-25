@@ -1,5 +1,6 @@
 package com.luisilva.transactionschedulerapp.controllers;
 
+import com.luisilva.transactionschedulerapp.data.dtos.NewScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.data.dtos.ScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.services.TransactionService;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,9 @@ public class TransactionController {
     }
 
     @PostMapping()
-    public ResponseEntity<String> saveScheduledTransaction(@RequestBody ScheduledTransactionDTO scheduledTransactionDTO) {
+    public ResponseEntity<String> saveScheduledTransaction(@RequestBody NewScheduledTransactionDTO newScheduledTransactionDTO) {
         try {
-            transactionService.saveScheduledTransaction(scheduledTransactionDTO);
+            transactionService.saveScheduledTransaction(newScheduledTransactionDTO);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

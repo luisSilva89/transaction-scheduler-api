@@ -4,9 +4,9 @@ import java.time.LocalDate;
 
 public class TransactionFeeCalculator {
 
-    private TransactionFeeStrategy feeStrategy;
+    public TransactionFeeStrategy feeStrategy;
 
-    public TransactionFeeCalculator(double amount, LocalDate schedulingDate) {
+    public TransactionFeeCalculator(double amount) {
         if (amount <= 1000) {
             feeStrategy = new FeeStrategyA();
         } else if (amount <= 2000) {
@@ -14,6 +14,10 @@ public class TransactionFeeCalculator {
         } else {
             feeStrategy = new FeeStrategyC();
         }
+    }
+
+    public double calculateTransactionFee(double amount, LocalDate schedulingDate) {
+        return feeStrategy.calculateFee(amount, schedulingDate);
     }
 
 

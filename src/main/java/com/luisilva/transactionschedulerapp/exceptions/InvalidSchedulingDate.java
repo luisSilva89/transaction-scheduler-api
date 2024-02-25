@@ -12,6 +12,7 @@ public class InvalidSchedulingDate extends RuntimeException {
         super("The maximum scheduling date for the amount submitted is " + maxSchedulingDate);
     }
 
+    // TODO: review this exception, it might not need the maxSchedulingDate
     public InvalidSchedulingDate(LocalDate minSchedulingDate, LocalDate maxSchedulingDate) {
         super("The scheduling date range for the amount submitted is between " + minSchedulingDate + " and " + maxSchedulingDate);
     }

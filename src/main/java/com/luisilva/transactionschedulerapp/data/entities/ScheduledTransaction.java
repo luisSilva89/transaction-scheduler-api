@@ -25,7 +25,7 @@ public class ScheduledTransaction {
     private Long clientAccountId;
 
     @Column(name = "AMOUNT")
-    private Float amount;
+    private double amount;
 
     @Column(name = "DUE_DATE")
     private LocalDate dueDate;
@@ -34,7 +34,7 @@ public class ScheduledTransaction {
     private String transactionType;
 
     @Column(name = "FEE")
-    private Float fee;
+    private double fee;
 
     @Column(name = "STATUS")
     private String status;

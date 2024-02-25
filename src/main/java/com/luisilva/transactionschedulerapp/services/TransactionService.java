@@ -1,10 +1,12 @@
 package com.luisilva.transactionschedulerapp.services;
 
 
+import com.luisilva.transactionschedulerapp.data.dtos.NewScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.data.dtos.ScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.data.entities.ScheduledTransaction;
 import com.luisilva.transactionschedulerapp.exceptions.NoContentAtTheDatabaseException;
 import com.luisilva.transactionschedulerapp.repositories.ScheduledTransactionRepository;
+import com.luisilva.transactionschedulerapp.transactionFee.TransactionFeeCalculator;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,8 @@ public class TransactionService {
 
         List<ScheduledTransaction> scheduledTransactions = repository.findScheduledTransactionsByClientAccountId(clientAccountId);
 
-        if (scheduledTransactions.isEmpty()) throw (new NoContentAtTheDatabaseException(ScheduledTransaction.class, clientAccountId));
+        if (scheduledTransactions.isEmpty())
+            throw (new NoContentAtTheDatabaseException(ScheduledTransaction.class, clientAccountId));
 
         return scheduledTransactions.stream()
                 .map(st -> modelMapper.map(st, ScheduledTransactionDTO.class))
@@ -35,19 +38,23 @@ public class TransactionService {
     }
 
 
-    public void saveScheduledTransaction(ScheduledTransactionDTO scheduledTransactionDTO) {
+    public void saveScheduledTransaction(NewScheduledTransactionDTO newScheduledTransactionDTO) {
 
-        if (Objects.isNull(scheduledTransactionDTO)) throw new IllegalArgumentException();
+        if (Objects.isNull(newScheduledTransactionDTO)) throw new IllegalArgumentException();
+
+        TransactionFeeCalculator transactionFeeCalculator = new TransactionFeeCalculator(newScheduledTransactionDTO.getAmount());
 
         ScheduledTransaction scheduledTransaction = ScheduledTransaction.builder()
-                .clientAccountId(scheduledTransactionDTO.getClientAccountId())
-                .transactionType(scheduledTransactionDTO.getTransactionType())
-                .amount(scheduledTransactionDTO.getAmount())
-                .dueDate(scheduledTransactionDTO.getDueDate())
-                .fee(scheduledTransactionDTO.getFee())
-                .status(scheduledTransactionDTO.getStatus())
+                .clientAccountId(newScheduledTransactionDTO.getClientAccountId())
+                .transactionType(newScheduledTransactionDTO.getTransactionType())
+                .amount(newScheduledTransactionDTO.getAmount())
+                .dueDate(newScheduledTransactionDTO.getDueDate())
+                .fee(transactionFeeCalculator.calculateTransactionFee(newScheduledTransactionDTO.getAmount(), newScheduledTransactionDTO.getDueDate()))
+                .status(newScheduledTransactionDTO.getStatus())
                 .build();
+        System.out.println(scheduledTransaction);
 
         repository.save(scheduledTransaction);
     }
+
 }
