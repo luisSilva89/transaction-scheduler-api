@@ -13,19 +13,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "SCHEDULED_TRANSACTIONS")
-public class ScheduledTransactions {
+@Table(name = "SCHEDULED_TRANSACTION")
+public class ScheduledTransaction {
 
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "CLIENT_ACCOUNT_ID", unique = true)
-    private long clientAccountId;
+    private Long clientAccountId;
 
     @Column(name = "AMOUNT")
-    private long amount;
+    private Long amount;
 
     @Column(name = "DUE_DATE")
     private LocalDateTime dueDate;
@@ -34,7 +34,7 @@ public class ScheduledTransactions {
     private String transactionType;
 
     @Column(name = "FEE")
-    private long fee;
+    private Long fee;
 
     @Column(name = "STATUS")
     private String status;

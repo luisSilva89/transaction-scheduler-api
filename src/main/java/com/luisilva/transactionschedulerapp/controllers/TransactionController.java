@@ -1,9 +1,8 @@
 package com.luisilva.transactionschedulerapp.controllers;
 
-import com.luisilva.transactionschedulerapp.data.dtos.TransactionDTO;
+import com.luisilva.transactionschedulerapp.data.dtos.ScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.services.TransactionService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +19,7 @@ public class TransactionController {
     }
 
     @GetMapping("/allTransactions")
-    private String getAllTransactionsFromClientAccount() {
+    private List<ScheduledTransactionDTO> getAllTransactionsFromClientAccount() {
         return transactionService.getAllTransactionsFromClientAccount();
     }
 
