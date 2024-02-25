@@ -43,16 +43,16 @@ public class TransactionService {
         if (Objects.isNull(newScheduledTransactionDTO)) throw new IllegalArgumentException();
 
         TransactionFeeCalculator transactionFeeCalculator = new TransactionFeeCalculator(newScheduledTransactionDTO.getAmount());
+        double fee = transactionFeeCalculator.calculateTransactionFee(newScheduledTransactionDTO.getAmount(), newScheduledTransactionDTO.getDueDate());
 
         ScheduledTransaction scheduledTransaction = ScheduledTransaction.builder()
                 .clientAccountId(newScheduledTransactionDTO.getClientAccountId())
                 .transactionType(newScheduledTransactionDTO.getTransactionType())
                 .amount(newScheduledTransactionDTO.getAmount())
                 .dueDate(newScheduledTransactionDTO.getDueDate())
-                .fee(transactionFeeCalculator.calculateTransactionFee(newScheduledTransactionDTO.getAmount(), newScheduledTransactionDTO.getDueDate()))
+                .fee(fee)
                 .status(newScheduledTransactionDTO.getStatus())
                 .build();
-        System.out.println(scheduledTransaction);
 
         repository.save(scheduledTransaction);
     }
