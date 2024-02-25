@@ -2,9 +2,9 @@ package com.luisilva.transactionschedulerapp.controllers;
 
 import com.luisilva.transactionschedulerapp.data.dtos.ScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.services.TransactionService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,8 +19,18 @@ public class TransactionController {
     }
 
     @GetMapping("/allTransactions")
-    private List<ScheduledTransactionDTO> getAllTransactionsFromClientAccount() {
+    public List<ScheduledTransactionDTO> getAllTransactionsFromClientAccount() {
         return transactionService.getAllTransactionsFromClientAccount();
+    }
+
+    @PostMapping()
+    public ResponseEntity<String> saveScheduledTransaction(@RequestBody ScheduledTransactionDTO scheduledTransactionDTO) {
+        try {
+            transactionService.saveScheduledTransaction(scheduledTransactionDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 
