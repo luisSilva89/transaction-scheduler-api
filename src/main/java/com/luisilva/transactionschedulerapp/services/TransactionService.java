@@ -27,7 +27,7 @@ public class TransactionService {
 
         List<ScheduledTransaction> scheduledTransactions = repository.findScheduledTransactionsByClientAccountId(clientAccountId);
 
-        if (scheduledTransactions.isEmpty()) throw (new NoContentAtTheDatabaseException(ScheduledTransaction.class));
+        if (scheduledTransactions.isEmpty()) throw (new NoContentAtTheDatabaseException(ScheduledTransaction.class, clientAccountId));
 
         return scheduledTransactions.stream()
                 .map(st -> modelMapper.map(st, ScheduledTransactionDTO.class))

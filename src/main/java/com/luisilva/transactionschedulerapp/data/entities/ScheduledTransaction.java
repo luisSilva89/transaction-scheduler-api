@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Builder
 @Data
@@ -25,16 +25,16 @@ public class ScheduledTransaction {
     private Long clientAccountId;
 
     @Column(name = "AMOUNT")
-    private Long amount;
+    private Float amount;
 
     @Column(name = "DUE_DATE")
-    private LocalDateTime dueDate;
+    private LocalDate dueDate;
 
     @Column(name = "TRANSACTION_TYPE")
     private String transactionType;
 
     @Column(name = "FEE")
-    private String fee;
+    private Float fee;
 
     @Column(name = "STATUS")
     private String status;

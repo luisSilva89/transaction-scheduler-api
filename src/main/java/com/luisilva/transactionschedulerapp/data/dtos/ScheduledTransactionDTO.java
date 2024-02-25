@@ -1,12 +1,11 @@
 package com.luisilva.transactionschedulerapp.data.dtos;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Builder
 @Data
@@ -17,10 +16,10 @@ public class ScheduledTransactionDTO {
 
     private Long id;
     private Long clientAccountId;
-    private Long amount;
-    private LocalDateTime dueDate;
+    private Float amount;
+    private LocalDate dueDate;
     private String transactionType;
-    private String fee;
+    private Float fee;
     private String status;
 
 }
