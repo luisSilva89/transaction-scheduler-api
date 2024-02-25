@@ -23,9 +23,9 @@ public class TransactionService {
         this.modelMapper = modelMapper;
     }
 
-    public List<ScheduledTransactionDTO> getAllTransactionsFromClientAccount() {
+    public List<ScheduledTransactionDTO> getAllTransactionsFromClientAccount(Long clientAccountId) {
 
-        List<ScheduledTransaction> scheduledTransactions = repository.findAll();
+        List<ScheduledTransaction> scheduledTransactions = repository.findScheduledTransactionsByClientAccountId(clientAccountId);
 
         if (scheduledTransactions.isEmpty()) throw (new NoContentAtTheDatabaseException(ScheduledTransaction.class));
 

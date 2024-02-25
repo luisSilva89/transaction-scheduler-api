@@ -18,9 +18,9 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @GetMapping("/allTransactions")
-    public List<ScheduledTransactionDTO> getAllTransactionsFromClientAccount() {
-        return transactionService.getAllTransactionsFromClientAccount();
+    @GetMapping("/allTransactions/{clientAccountId}")
+    public List<ScheduledTransactionDTO> getAllTransactionsFromClientAccount(@PathVariable("clientAccountId") Long clientAccountId) {
+        return transactionService.getAllTransactionsFromClientAccount(clientAccountId);
     }
 
     @PostMapping()
