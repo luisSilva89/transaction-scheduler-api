@@ -7,6 +7,8 @@ import java.time.LocalDate;
 public class FeeStrategyA implements TransactionFeeStrategy {
 
     private final LocalDate TODAY = LocalDate.now();
+    private final double TAX = 0.03;
+    private final Integer ADDITIONAL_TAX = 3;
 
     @Override
     public double calculateFee(double amount, LocalDate schedulingDate) {
@@ -16,6 +18,7 @@ public class FeeStrategyA implements TransactionFeeStrategy {
             throw new InvalidSchedulingDateException(TODAY);
 
             // Scheduling date is equal to today's date
-        } else return amount * 0.03 + 3;
+        } else return amount * TAX + ADDITIONAL_TAX;
     }
+
 }

@@ -15,6 +15,10 @@ public class FeeStrategyC implements TransactionFeeStrategy {
     private final LocalDate FORTY_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(40);
     private final LocalDate FORTY_ONE_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(41);
     private final String FUTURE = "any posterior date";
+    private final double TAX1 = 0.082;
+    private final double TAX2 = 0.069;
+    private final double TAX3 = 0.047;
+    private final double TAX4 = 0.017;
 
 
     @Override
@@ -26,19 +30,19 @@ public class FeeStrategyC implements TransactionFeeStrategy {
 
             // Scheduling date is between 11 and 20 days from today's date
         } else if (schedulingDate.isAfter(TEN_DAYS_IN_THE_FUTURE) && schedulingDate.isBefore(TWENTY_ONE_DAYS_IN_THE_FUTURE)) {
-            return amount * 0.082;
+            return amount * TAX1;
 
             // Scheduling date is between 21 and 30 days from today's date
         } else if (schedulingDate.isAfter(TWENTY_DAYS_IN_THE_FUTURE) && schedulingDate.isBefore(THIRTY_ONE_DAYS_IN_THE_FUTURE)) {
-            return amount * 0.069;
+            return amount * TAX2;
 
             // Scheduling date is between 31 and 40 days from today's date
         } else if (schedulingDate.isAfter(THIRTY_DAYS_IN_THE_FUTURE) && schedulingDate.isBefore(FORTY_ONE_DAYS_IN_THE_FUTURE)) {
-            return amount * 0.047;
+            return amount * TAX3;
 
             // Scheduling date is 40 days higher than today's date
         } else if (schedulingDate.isAfter(FORTY_DAYS_IN_THE_FUTURE)) {
-            return amount * 0.017;
+            return amount * TAX4;
 
             // Scheduling date does not fall in any of the criteria mentioned before
         } else throw new IllegalArgumentException();
