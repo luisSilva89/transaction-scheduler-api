@@ -29,16 +29,15 @@ public class TransactionService {
 
     public List<ScheduledTransactionDTO> getAllTransactionsFromClientAccount(Long clientAccountId) {
 
-        List<ScheduledTransaction> scheduledTransactions = repository.findScheduledTransactionsByClientAccountId(clientAccountId);
+        List<ScheduledTransaction> clientScheduledTransactions = repository.findScheduledTransactionsByClientAccountId(clientAccountId);
 
-        if (scheduledTransactions.isEmpty())
+        if (clientScheduledTransactions.isEmpty())
             throw (new NoContentAtTheDatabaseException(ScheduledTransaction.class, clientAccountId));
 
-        return scheduledTransactions.stream()
+        return clientScheduledTransactions.stream()
                 .map(st -> modelMapper.map(st, ScheduledTransactionDTO.class))
                 .collect(Collectors.toList());
     }
-
 
     public void saveScheduledTransaction(NewScheduledTransactionDTO newScheduledTransactionDTO) {
 
@@ -51,7 +50,7 @@ public class TransactionService {
         LocalDate TODAY = LocalDate.now();
         // If the scheduling date is previous to today's throw an exception as it must be from today onwards
         if (newScheduledTransactionDTO.getDueDate().isBefore(TODAY)) {
-            throw new InvalidSchedulingDate(TODAY, "future");
+            throw new InvalidSchedulingDate(TODAY, "any posterior date");
         }
 
         // If the scheduling date is for today then the transaction will be "Executed" otherwise it will be of "Pending" status

@@ -14,7 +14,7 @@ public class FeeStrategyC implements TransactionFeeStrategy {
     private final LocalDate THIRTY_ONE_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(31);
     private final LocalDate FORTY_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(40);
     private final LocalDate FORTY_ONE_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(41);
-    private final String FUTURE = "Future";
+    private final String FUTURE = "any posterior date";
 
 
     @Override

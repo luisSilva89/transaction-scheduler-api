@@ -13,4 +13,5 @@ public class NoContentAtTheDatabaseException extends RuntimeException {
     public NoContentAtTheDatabaseException(Class<?> aClass, Long id) {
         super("There is no content at the database of type: " + aClass.getName() + " with client account id: " + id);
     }
+
 }
