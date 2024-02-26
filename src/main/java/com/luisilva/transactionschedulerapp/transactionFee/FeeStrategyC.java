@@ -6,29 +6,41 @@ import java.time.LocalDate;
 
 public class FeeStrategyC implements TransactionFeeStrategy {
 
+    private final LocalDate TEN_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(10);
+    private final LocalDate ELEVEN_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(11);
+    private final LocalDate TWENTY_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(20);
+    private final LocalDate TWENTY_ONE_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(21);
+    private final LocalDate THIRTY_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(30);
+    private final LocalDate THIRTY_ONE_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(31);
+    private final LocalDate FORTY_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(40);
+    private final LocalDate FORTY_ONE_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(41);
+
+
     @Override
     public double calculateFee(double amount, LocalDate schedulingDate) {
 
-        LocalDate elevenDaysInTheFuture = LocalDate.now().plusDays(11);
-        LocalDate twentyDaysInTheFuture = LocalDate.now().plusDays(20);
-        LocalDate twentyOneDaysInTheFuture = LocalDate.now().plusDays(21);
-        LocalDate thirtyDaysInTheFuture = LocalDate.now().plusDays(30);
-        LocalDate thirtyOneDaysInTheFuture = LocalDate.now().plusDays(31);
-        LocalDate fortyDaysInTheFuture = LocalDate.now().plusDays(40);
-        LocalDate fortyOneDaysInTheFuture = LocalDate.now().plusDays(41);
-
-
-        if (schedulingDate.isBefore(elevenDaysInTheFuture)) {
+            // Scheduling date is before 11 days from today's date
+        if (schedulingDate.isBefore(ELEVEN_DAYS_IN_THE_FUTURE)) {
             // TODO: review exception
-            throw new InvalidSchedulingDate(elevenDaysInTheFuture, fortyDaysInTheFuture);
-        } else if (schedulingDate.isAfter(elevenDaysInTheFuture) && schedulingDate.isBefore(twentyOneDaysInTheFuture)) {
+            throw new InvalidSchedulingDate(ELEVEN_DAYS_IN_THE_FUTURE, FORTY_DAYS_IN_THE_FUTURE);
+
+            // Scheduling date is between 11 and 20 days from today's date
+        } else if (schedulingDate.isAfter(TEN_DAYS_IN_THE_FUTURE) && schedulingDate.isBefore(TWENTY_ONE_DAYS_IN_THE_FUTURE)) {
             return amount * 0.082;
-        } else if (schedulingDate.isAfter(twentyDaysInTheFuture) && schedulingDate.isBefore(thirtyOneDaysInTheFuture)) {
+
+            // Scheduling date is between 21 and 30 days from today's date
+        } else if (schedulingDate.isAfter(TWENTY_DAYS_IN_THE_FUTURE) && schedulingDate.isBefore(THIRTY_ONE_DAYS_IN_THE_FUTURE)) {
             return amount * 0.069;
-        } else if (schedulingDate.isAfter(thirtyDaysInTheFuture) && schedulingDate.isBefore(fortyOneDaysInTheFuture)) {
+
+            // Scheduling date is between 31 and 40 days from today's date
+        } else if (schedulingDate.isAfter(THIRTY_DAYS_IN_THE_FUTURE) && schedulingDate.isBefore(FORTY_ONE_DAYS_IN_THE_FUTURE)) {
             return amount * 0.047;
-        } else if (schedulingDate.isAfter(fortyDaysInTheFuture)) {
+
+            // Scheduling date is 40 days higher than today's date
+        } else if (schedulingDate.isAfter(FORTY_DAYS_IN_THE_FUTURE)) {
             return amount * 0.017;
+
+            // Scheduling date does not fall in any of the criteria mentioned before
         } else throw new IllegalArgumentException();
     }
 
