@@ -34,5 +34,19 @@ public class TransactionController {
         }
     }
 
+    @PutMapping()
+    public ScheduledTransactionDTO updateScheduledTransaction() {
+        return null;
+    }
+
+    @DeleteMapping("/{id}/client-account/{clientAccountId}")
+    public ResponseEntity<String> deleteScheduledTransaction(@PathVariable("id") Long id, @PathVariable("clientAccountId") Long clientAccountId) {
+        try {
+            transactionService.deleteScheduledTransaction(id, clientAccountId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

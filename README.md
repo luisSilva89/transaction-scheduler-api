@@ -2,8 +2,8 @@
 
 ## Transaction Scheduler App
 
-An Api that allows to save, edit, delete and update the scheduling of bank transactions.
-To each scheduled transaction submitted, a fee will be applied based on the amount and the scheduling date.  
+An API that enables the saving, editing, deletion, and updating of scheduled bank transactions. 
+For each submitted scheduled transaction, a fee will be applied based on the amount and the scheduling date.  
 
 ## Built With
 
@@ -19,6 +19,7 @@ To each scheduled transaction submitted, a fee will be applied based on the amou
     - Development Tools:
     - Lombok
     - PgAdmin4
+    - Postman
 
 - Testing Frameworks:
     - JUnit

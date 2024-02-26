@@ -5,7 +5,9 @@ import com.luisilva.transactionschedulerapp.data.dtos.NewScheduledTransactionDTO
 import com.luisilva.transactionschedulerapp.data.dtos.ScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.data.entities.ScheduledTransaction;
 import com.luisilva.transactionschedulerapp.exceptions.InvalidSchedulingDate;
+import com.luisilva.transactionschedulerapp.exceptions.InvalidTransactionInfo;
 import com.luisilva.transactionschedulerapp.exceptions.NoContentAtTheDatabaseException;
+import com.luisilva.transactionschedulerapp.exceptions.NotAbleToDeleteTransaction;
 import com.luisilva.transactionschedulerapp.repositories.ScheduledTransactionRepository;
 import com.luisilva.transactionschedulerapp.transactionFee.TransactionFeeCalculator;
 import org.modelmapper.ModelMapper;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,4 +71,23 @@ public class TransactionService {
         repository.save(scheduledTransaction);
     }
 
+    public void deleteScheduledTransaction(Long id, Long clientAccountId) {
+
+        // Find the scheduled transaction by ID
+        Optional<ScheduledTransaction> scheduledTransaction = repository.findById(id);
+
+        // If no record matches the id provided, return a 404 status code
+        if (scheduledTransaction.isEmpty()) throw new NoContentAtTheDatabaseException(ScheduledTransaction.class);
+
+        // If the clientAccountId provided does not match the clientAccountId from the record retrieved with the id requested, throw and exception
+        if (!Objects.equals(scheduledTransaction.get().getClientAccountId(), clientAccountId)) {
+            throw new InvalidTransactionInfo(id, clientAccountId);
+        }
+
+        // If the transaction status is "Executed" it cannot be deleted as it has already been processed
+        if (Objects.equals(scheduledTransaction.get().getStatus(), "Executed"))
+            throw new NotAbleToDeleteTransaction("Executed");
+
+        repository.delete(scheduledTransaction.get());
+    }
 }
