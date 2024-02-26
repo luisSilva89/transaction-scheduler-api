@@ -3,11 +3,10 @@ package com.luisilva.transactionschedulerapp.services;
 
 import com.luisilva.transactionschedulerapp.data.dtos.NewScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.data.dtos.ScheduledTransactionDTO;
+import com.luisilva.transactionschedulerapp.data.dtos.UpdateScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.data.entities.ScheduledTransaction;
-import com.luisilva.transactionschedulerapp.exceptions.InvalidSchedulingDate;
-import com.luisilva.transactionschedulerapp.exceptions.InvalidTransactionInfo;
-import com.luisilva.transactionschedulerapp.exceptions.NoContentAtTheDatabaseException;
-import com.luisilva.transactionschedulerapp.exceptions.NotAbleToDeleteTransaction;
+import com.luisilva.transactionschedulerapp.data.enums.TransactionStatusENUM;
+import com.luisilva.transactionschedulerapp.exceptions.*;
 import com.luisilva.transactionschedulerapp.repositories.ScheduledTransactionRepository;
 import com.luisilva.transactionschedulerapp.transactionFee.TransactionFeeCalculator;
 import org.modelmapper.ModelMapper;
@@ -53,7 +52,7 @@ public class TransactionService {
         LocalDate TODAY = LocalDate.now();
         // If the scheduling date is previous to today's throw an exception as it must be from today onwards
         if (newScheduledTransactionDTO.getDueDate().isBefore(TODAY)) {
-            throw new InvalidSchedulingDate(TODAY, "any posterior date");
+            throw new InvalidSchedulingDateException(TODAY, "any posterior date");
         }
 
         // If the scheduling date is for today then the transaction will be "Executed" otherwise it will be of "Pending" status
@@ -79,15 +78,63 @@ public class TransactionService {
         // If no record matches the id provided, return a 404 status code
         if (scheduledTransaction.isEmpty()) throw new NoContentAtTheDatabaseException(ScheduledTransaction.class);
 
-        // If the clientAccountId provided does not match the clientAccountId from the record retrieved with the id requested, throw and exception
+        // If the clientAccountId provided does not match the clientAccountId from the record retrieved with the id requested, throw an exception
         if (!Objects.equals(scheduledTransaction.get().getClientAccountId(), clientAccountId)) {
-            throw new InvalidTransactionInfo(id, clientAccountId);
+            throw new InvalidTransactionInfoException(id, clientAccountId);
         }
 
         // If the transaction status is "Executed" it cannot be deleted as it has already been processed
-        if (Objects.equals(scheduledTransaction.get().getStatus(), "Executed"))
-            throw new NotAbleToDeleteTransaction("Executed");
+        if (Objects.equals(scheduledTransaction.get().getStatus(), TransactionStatusENUM.EXECUTED.getValue()))
+            throw new NotAbleToDeleteTransactionException(TransactionStatusENUM.EXECUTED.getValue());
 
         repository.delete(scheduledTransaction.get());
     }
+
+    public ScheduledTransactionDTO updateScheduledTransaction(UpdateScheduledTransactionDTO updateScheduledTransactionDTO) {
+
+        if (Objects.isNull(updateScheduledTransactionDTO))
+            throw new IllegalArgumentException("The request body cannot be null");
+
+        // If no record matches the id provided, return a 404 status code
+        ScheduledTransaction scheduledTransaction = getScheduledTransactionOrThrowException(updateScheduledTransactionDTO.getId());
+
+        // If the clientAccountId provided does not match the clientAccountId from the record retrieved with the id requested, throw an exception
+        if (!Objects.equals(scheduledTransaction.getClientAccountId(), updateScheduledTransactionDTO.getClientAccountId())) {
+            throw new InvalidTransactionInfoException(updateScheduledTransactionDTO.getId(), updateScheduledTransactionDTO.getClientAccountId());
+        }
+
+        // If the transaction status is "Executed" it cannot be updated as it has already been processed
+        if (Objects.equals(scheduledTransaction.getStatus(), TransactionStatusENUM.EXECUTED.getValue()))
+            throw new NotAbleToUpdateTransactionException(TransactionStatusENUM.EXECUTED.getValue());
+
+        LocalDate TODAY = LocalDate.now();
+        // If the scheduling date is previous to today's throw an exception as it must be from today onwards
+        if (updateScheduledTransactionDTO.getDueDate().isBefore(TODAY)) {
+            throw new InvalidSchedulingDateException(TODAY, "any posterior date");
+        }
+
+        TransactionFeeCalculator transactionFeeCalculator = new TransactionFeeCalculator(updateScheduledTransactionDTO.getAmount());
+        double fee = transactionFeeCalculator.calculateTransactionFee(updateScheduledTransactionDTO.getAmount(), updateScheduledTransactionDTO.getDueDate());
+
+        // If the scheduling date is for today then the transaction will be "Executed" otherwise it will be of "Pending" status
+        String status = updateScheduledTransactionDTO.getDueDate().equals(TODAY) ? "Executed" : "Pending";
+
+        scheduledTransaction.setTransactionType(updateScheduledTransactionDTO.getTransactionType());
+        scheduledTransaction.setAmount(updateScheduledTransactionDTO.getAmount());
+        scheduledTransaction.setDueDate(updateScheduledTransactionDTO.getDueDate());
+        scheduledTransaction.setFee(fee);
+        scheduledTransaction.setStatus(status);
+        repository.save(scheduledTransaction);
+
+        return modelMapper.map(repository.save(scheduledTransaction), ScheduledTransactionDTO.class);
+    }
+
+    /**
+     * PRIVATE METHODS
+     */
+
+    private ScheduledTransaction getScheduledTransactionOrThrowException(long id) {
+        return repository.findById(id).orElseThrow(() -> new NoContentAtTheDatabaseException(ScheduledTransaction.class));
+    }
+
 }

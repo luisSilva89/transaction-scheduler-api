@@ -16,7 +16,8 @@ For each submitted scheduled transaction, a fee will be applied based on the amo
 
 - Tools:
     - Maven
-    - Development Tools:
+  
+- Development Tools:
     - Lombok
     - PgAdmin4
     - Postman

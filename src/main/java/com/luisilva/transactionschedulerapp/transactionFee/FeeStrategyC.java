@@ -1,6 +1,6 @@
 package com.luisilva.transactionschedulerapp.transactionFee;
 
-import com.luisilva.transactionschedulerapp.exceptions.InvalidSchedulingDate;
+import com.luisilva.transactionschedulerapp.exceptions.InvalidSchedulingDateException;
 
 import java.time.LocalDate;
 
@@ -22,7 +22,7 @@ public class FeeStrategyC implements TransactionFeeStrategy {
 
         // Scheduling date is before 11 days from today's date
         if (schedulingDate.isBefore(ELEVEN_DAYS_IN_THE_FUTURE)) {
-            throw new InvalidSchedulingDate(ELEVEN_DAYS_IN_THE_FUTURE, FUTURE);
+            throw new InvalidSchedulingDateException(ELEVEN_DAYS_IN_THE_FUTURE, FUTURE);
 
             // Scheduling date is between 11 and 20 days from today's date
         } else if (schedulingDate.isAfter(TEN_DAYS_IN_THE_FUTURE) && schedulingDate.isBefore(TWENTY_ONE_DAYS_IN_THE_FUTURE)) {

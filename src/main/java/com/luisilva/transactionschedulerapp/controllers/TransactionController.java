@@ -2,6 +2,7 @@ package com.luisilva.transactionschedulerapp.controllers;
 
 import com.luisilva.transactionschedulerapp.data.dtos.NewScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.data.dtos.ScheduledTransactionDTO;
+import com.luisilva.transactionschedulerapp.data.dtos.UpdateScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.services.TransactionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +36,8 @@ public class TransactionController {
     }
 
     @PutMapping()
-    public ScheduledTransactionDTO updateScheduledTransaction() {
-        return null;
+    public ScheduledTransactionDTO updateScheduledTransaction(@RequestBody UpdateScheduledTransactionDTO updateScheduledTransactionDTO) {
+        return transactionService.updateScheduledTransaction(updateScheduledTransactionDTO);
     }
 
     @DeleteMapping("/{id}/client-account/{clientAccountId}")

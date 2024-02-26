@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.time.LocalDate;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class InvalidSchedulingDate extends RuntimeException {
+public class InvalidSchedulingDateException extends RuntimeException {
 
-    public InvalidSchedulingDate(LocalDate maxSchedulingDate) {
+    public InvalidSchedulingDateException(LocalDate maxSchedulingDate) {
         super("The maximum scheduling date for the amount submitted is " + maxSchedulingDate);
     }
 
-    public InvalidSchedulingDate(LocalDate minSchedulingDate, String future) {
+    public InvalidSchedulingDateException(LocalDate minSchedulingDate, String future) {
         super("The scheduling date range for the amount submitted is between " + minSchedulingDate + " and " + future);
     }
 

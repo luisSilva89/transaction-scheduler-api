@@ -1,6 +1,6 @@
 package com.luisilva.transactionschedulerapp.transactionFee;
 
-import com.luisilva.transactionschedulerapp.exceptions.InvalidTransactionAmount;
+import com.luisilva.transactionschedulerapp.exceptions.InvalidTransactionAmountException;
 
 import java.time.LocalDate;
 
@@ -14,7 +14,7 @@ public class TransactionFeeCalculator {
 
     public TransactionFeeCalculator(double amount) {
         if (amount <= ZERO_EUROS) {
-            throw new InvalidTransactionAmount(amount);
+            throw new InvalidTransactionAmountException(amount);
 
         } else if (amount <= THOUSAND_EUROS) {
             feeStrategy = new FeeStrategyA();

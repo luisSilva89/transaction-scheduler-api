@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class InvalidTransactionAmount extends RuntimeException {
+public class InvalidTransactionAmountException extends RuntimeException {
 
-    public InvalidTransactionAmount(double amount) {
+    public InvalidTransactionAmountException(double amount) {
         super("The amount submitted, " + amount + "€, must be superior than 0€");
     }
 
