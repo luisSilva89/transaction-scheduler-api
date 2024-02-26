@@ -4,6 +4,7 @@ package com.luisilva.transactionschedulerapp.services;
 import com.luisilva.transactionschedulerapp.data.dtos.NewScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.data.dtos.ScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.data.entities.ScheduledTransaction;
+import com.luisilva.transactionschedulerapp.exceptions.InvalidSchedulingDate;
 import com.luisilva.transactionschedulerapp.exceptions.NoContentAtTheDatabaseException;
 import com.luisilva.transactionschedulerapp.repositories.ScheduledTransactionRepository;
 import com.luisilva.transactionschedulerapp.transactionFee.TransactionFeeCalculator;
@@ -47,9 +48,13 @@ public class TransactionService {
         TransactionFeeCalculator transactionFeeCalculator = new TransactionFeeCalculator(newScheduledTransactionDTO.getAmount());
         double fee = transactionFeeCalculator.calculateTransactionFee(newScheduledTransactionDTO.getAmount(), newScheduledTransactionDTO.getDueDate());
 
+        LocalDate TODAY = LocalDate.now();
+        // If the scheduling date is previous to today's throw an exception as it must be from today onwards
+        if (newScheduledTransactionDTO.getDueDate().isBefore(TODAY)) {
+            throw new InvalidSchedulingDate(TODAY, "future");
+        }
 
         // If the scheduling date is for today then the transaction will be "Executed" otherwise it will be of "Pending" status
-        LocalDate TODAY = LocalDate.now();
         String status = newScheduledTransactionDTO.getDueDate().equals(TODAY) ? "Executed" : "Pending";
 
         ScheduledTransaction scheduledTransaction = ScheduledTransaction.builder()

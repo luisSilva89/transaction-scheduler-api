@@ -14,15 +14,15 @@ public class FeeStrategyC implements TransactionFeeStrategy {
     private final LocalDate THIRTY_ONE_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(31);
     private final LocalDate FORTY_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(40);
     private final LocalDate FORTY_ONE_DAYS_IN_THE_FUTURE = LocalDate.now().plusDays(41);
+    private final String FUTURE = "Future";
 
 
     @Override
     public double calculateFee(double amount, LocalDate schedulingDate) {
 
-            // Scheduling date is before 11 days from today's date
+        // Scheduling date is before 11 days from today's date
         if (schedulingDate.isBefore(ELEVEN_DAYS_IN_THE_FUTURE)) {
-            // TODO: review exception
-            throw new InvalidSchedulingDate(ELEVEN_DAYS_IN_THE_FUTURE, FORTY_DAYS_IN_THE_FUTURE);
+            throw new InvalidSchedulingDate(ELEVEN_DAYS_IN_THE_FUTURE, FUTURE);
 
             // Scheduling date is between 11 and 20 days from today's date
         } else if (schedulingDate.isAfter(TEN_DAYS_IN_THE_FUTURE) && schedulingDate.isBefore(TWENTY_ONE_DAYS_IN_THE_FUTURE)) {
