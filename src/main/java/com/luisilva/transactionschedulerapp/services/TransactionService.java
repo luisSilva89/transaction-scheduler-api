@@ -72,22 +72,19 @@ public class TransactionService {
 
     public void deleteScheduledTransaction(Long id, Long clientAccountId) {
 
-        // Find the scheduled transaction by ID
-        Optional<ScheduledTransaction> scheduledTransaction = repository.findById(id);
-
         // If no record matches the id provided, return a 404 status code
-        if (scheduledTransaction.isEmpty()) throw new NoContentAtTheDatabaseException(ScheduledTransaction.class);
+        ScheduledTransaction scheduledTransaction = getScheduledTransactionOrThrowException(id);
 
         // If the clientAccountId provided does not match the clientAccountId from the record retrieved with the id requested, throw an exception
-        if (!Objects.equals(scheduledTransaction.get().getClientAccountId(), clientAccountId)) {
+        if (!Objects.equals(scheduledTransaction.getClientAccountId(), clientAccountId)) {
             throw new InvalidTransactionInfoException(id, clientAccountId);
         }
 
         // If the transaction status is "Executed" it cannot be deleted as it has already been processed
-        if (Objects.equals(scheduledTransaction.get().getStatus(), TransactionStatusENUM.EXECUTED.getValue()))
+        if (Objects.equals(scheduledTransaction.getStatus(), TransactionStatusENUM.EXECUTED.getValue()))
             throw new NotAbleToDeleteTransactionException(TransactionStatusENUM.EXECUTED.getValue());
 
-        repository.delete(scheduledTransaction.get());
+        repository.delete(scheduledTransaction);
     }
 
     public ScheduledTransactionDTO updateScheduledTransaction(UpdateScheduledTransactionDTO updateScheduledTransactionDTO) {
