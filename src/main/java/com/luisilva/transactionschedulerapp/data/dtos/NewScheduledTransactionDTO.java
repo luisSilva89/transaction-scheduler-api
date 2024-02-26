@@ -18,6 +18,5 @@ public class NewScheduledTransactionDTO {
     private double amount;
     private LocalDate dueDate;
     private String transactionType;
-    private String status;
 
 }

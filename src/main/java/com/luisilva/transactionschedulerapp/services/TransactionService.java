@@ -10,6 +10,7 @@ import com.luisilva.transactionschedulerapp.transactionFee.TransactionFeeCalcula
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -40,10 +41,16 @@ public class TransactionService {
 
     public void saveScheduledTransaction(NewScheduledTransactionDTO newScheduledTransactionDTO) {
 
-        if (Objects.isNull(newScheduledTransactionDTO)) throw new IllegalArgumentException();
+        if (Objects.isNull(newScheduledTransactionDTO))
+            throw new IllegalArgumentException("The request body cannot be null");
 
         TransactionFeeCalculator transactionFeeCalculator = new TransactionFeeCalculator(newScheduledTransactionDTO.getAmount());
         double fee = transactionFeeCalculator.calculateTransactionFee(newScheduledTransactionDTO.getAmount(), newScheduledTransactionDTO.getDueDate());
+
+
+        // If the scheduling date is for today then the transaction will be "Executed" otherwise it will be of "Pending" status
+        LocalDate TODAY = LocalDate.now();
+        String status = newScheduledTransactionDTO.getDueDate().equals(TODAY) ? "Executed" : "Pending";
 
         ScheduledTransaction scheduledTransaction = ScheduledTransaction.builder()
                 .clientAccountId(newScheduledTransactionDTO.getClientAccountId())
@@ -51,7 +58,7 @@ public class TransactionService {
                 .amount(newScheduledTransactionDTO.getAmount())
                 .dueDate(newScheduledTransactionDTO.getDueDate())
                 .fee(fee)
-                .status(newScheduledTransactionDTO.getStatus())
+                .status(status)
                 .build();
 
         repository.save(scheduledTransaction);
