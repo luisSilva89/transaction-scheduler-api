@@ -31,5 +31,4 @@ public class TransactionFeeCalculator {
         return feeStrategy.calculateFee(amount, schedulingDate);
     }
 
-
 }

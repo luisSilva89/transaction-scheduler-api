@@ -21,7 +21,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
-public class TransactionServiceTest {
+public class TransactionServiceTests {
 
     @InjectMocks
     private TransactionService service;

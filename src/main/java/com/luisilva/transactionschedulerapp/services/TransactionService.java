@@ -32,6 +32,7 @@ public class TransactionService {
 
         List<ScheduledTransaction> clientScheduledTransactions = repository.findScheduledTransactionsByClientAccountId(clientAccountId);
 
+        // If no record was found throw 204 status
         if (clientScheduledTransactions.isEmpty())
             throw (new NoContentAtTheDatabaseException(ScheduledTransaction.class, clientAccountId));
 
@@ -45,6 +46,7 @@ public class TransactionService {
         if (Objects.isNull(newScheduledTransactionDTO))
             throw new IllegalArgumentException("The request body cannot be null");
 
+        // Instantiate the transactionFeeCalculator with the correct FeeStrategy, based on the amount, and then calculate the fee
         TransactionFeeCalculator transactionFeeCalculator = new TransactionFeeCalculator(newScheduledTransactionDTO.getAmount());
         double fee = transactionFeeCalculator.calculateTransactionFee(newScheduledTransactionDTO.getAmount(), newScheduledTransactionDTO.getDueDate());
 
