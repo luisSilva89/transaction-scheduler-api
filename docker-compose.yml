@@ -6,7 +6,7 @@ services:
     container_name: app-backend
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: binary/Dockerfile
     ports:
       - "8080:8080"
 
