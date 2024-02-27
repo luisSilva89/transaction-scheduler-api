@@ -9,11 +9,11 @@ import java.time.LocalDate;
 public class InvalidSchedulingDateException extends RuntimeException {
 
     public InvalidSchedulingDateException(LocalDate maxSchedulingDate) {
-        super("The maximum scheduling date for the amount submitted is " + maxSchedulingDate);
+        super("The maximum scheduling date allowed for the amount submitted is " + maxSchedulingDate);
     }
 
     public InvalidSchedulingDateException(LocalDate minSchedulingDate, String future) {
-        super("The scheduling date range for the amount submitted is between " + minSchedulingDate + " and " + future);
+        super("The scheduling date range allowed for the amount submitted is between " + minSchedulingDate + " and " + future);
     }
 
 }

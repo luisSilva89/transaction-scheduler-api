@@ -64,12 +64,13 @@ Add a new scheduled transaction for a specific client account.
 {
   "clientAccountId": "<client_account_id>",
   "amount": "<your_desired_amount>",
-  "dueDate": "<your_desired_due_date>",  // String, must be in yyyy-mm-dd format, for example: 2024-03-14
+  "dueDate": "<your_desired_due_date>",
   "transactionType": "Transfer"
 }
 ```
 
-Replace <client_account_id>, <your_desired_amount>, and <your_desired_due_date> with appropriate values.
+Replace <client_account_id>, <your_desired_amount>, and <your_desired_due_date> with appropriate values.   
+<your_desired_due_date> must be in "yyyy-mm-dd format", for example: 2024-03-14.
 
 - **Modify A Scheduled Transaction**
 
@@ -88,15 +89,15 @@ Modifies a scheduled transaction, as long as it is with status "Pending" and not
   "id": "<scheduled_transaction_id>",
   "clientAccountId": "<client_account_id>",
   "amount": "<your_desired_amount>",
-  "dueDate": "<your_desired_due_date>",  // String, must be in yyyy-mm-dd format, for example: 2024-03-14
+  "dueDate": "<your_desired_due_date>",
   "transactionType": "Transfer"
 }
 ```
 
 Replace <scheduled_transaction_id> with the desired scheduled transaction ID.  
 Replace <client_account_id> with the desired client account ID.  
-Replace <your_desired_amount>, and <your_desired_due_date> with appropriate values.
-
+Replace <your_desired_amount>, and <your_desired_due_date> with appropriate values.  
+<your_desired_due_date> must be in "yyyy-mm-dd" format, for example: 2024-03-14.
   
 - **Delete A Scheduled Transaction**
 

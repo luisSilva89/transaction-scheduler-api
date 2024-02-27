@@ -1,15 +1,14 @@
 package com.luisilva.transactionschedulerapp.data.enums;
 
-public enum TransactionStatusENUM {
+public enum TransactionTypeENUM {
 
-    EXECUTED(1, "Executed"),
-    PENDING(2, "Pending");
+    TRANSFER(1, "Transfer");
 
     private final int id;
 
     private final String value;
 
-    TransactionStatusENUM(int id, String value) {
+    TransactionTypeENUM(int id, String value) {
         this.id = id;
         this.value = value;
     }
@@ -18,7 +17,7 @@ public enum TransactionStatusENUM {
         return value;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

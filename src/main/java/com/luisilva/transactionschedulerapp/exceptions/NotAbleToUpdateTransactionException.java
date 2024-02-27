@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class NotAbleToUpdateTransactionException extends RuntimeException {
 
     public NotAbleToUpdateTransactionException(String status) {
-        super("Transactions with status " + status + " cannot be deleted");
+        super("Transactions with status " + status + " cannot be altered");
     }
 
 }

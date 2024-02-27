@@ -6,6 +6,7 @@ import com.luisilva.transactionschedulerapp.data.dtos.ScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.data.dtos.UpdateScheduledTransactionDTO;
 import com.luisilva.transactionschedulerapp.data.entities.ScheduledTransaction;
 import com.luisilva.transactionschedulerapp.data.enums.TransactionStatusENUM;
+import com.luisilva.transactionschedulerapp.data.enums.TransactionTypeENUM;
 import com.luisilva.transactionschedulerapp.exceptions.*;
 import com.luisilva.transactionschedulerapp.repositories.ScheduledTransactionRepository;
 import com.luisilva.transactionschedulerapp.transactionFee.TransactionFeeCalculator;
@@ -56,6 +57,11 @@ public class TransactionService {
             throw new InvalidSchedulingDateException(TODAY, "any posterior date");
         }
 
+        // If the transaction type received is not of type 'Transfer', throw an exception
+        if (!Objects.equals(newScheduledTransactionDTO.getTransactionType(), TransactionTypeENUM.TRANSFER.getValue())) {
+            throw new InvalidTransactionTypeException();
+        }
+
         // If the scheduling date is for today then the transaction will be "Executed" otherwise it will be of "Pending" status
         String status = newScheduledTransactionDTO.getDueDate().equals(TODAY) ? "Executed" : "Pending";
 
@@ -99,6 +105,11 @@ public class TransactionService {
         // If the clientAccountId provided does not match the clientAccountId from the record retrieved with the id requested, throw an exception
         if (!Objects.equals(scheduledTransaction.getClientAccountId(), updateScheduledTransactionDTO.getClientAccountId())) {
             throw new InvalidTransactionInfoException(updateScheduledTransactionDTO.getId(), updateScheduledTransactionDTO.getClientAccountId());
+        }
+
+        // If the transaction type received is not of type 'Transfer', throw an exception
+        if (!Objects.equals(updateScheduledTransactionDTO.getTransactionType(), TransactionTypeENUM.TRANSFER.getValue())) {
+            throw new InvalidTransactionTypeException();
         }
 
         // If the transaction status is "Executed" it cannot be updated as it has already been processed
