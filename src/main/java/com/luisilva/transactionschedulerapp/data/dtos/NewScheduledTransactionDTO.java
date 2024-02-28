@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class NewScheduledTransactionDTO {
 
-    private Long id;
     private Long clientAccountId;
     private double amount;
     private LocalDate dueDate;

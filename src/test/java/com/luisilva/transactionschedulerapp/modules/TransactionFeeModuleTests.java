@@ -164,9 +164,9 @@ public class TransactionFeeModuleTests {
         }
     }
 
-    @Test
-    public void testTransactionFeeCalculator() {
-
-    }
+//    @Test
+//    public void testTransactionFeeCalculator() {
+//
+//    }
 
 }

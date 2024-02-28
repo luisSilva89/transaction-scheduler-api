@@ -133,7 +133,6 @@ public class TransactionService {
         scheduledTransaction.setDueDate(updateScheduledTransactionDTO.getDueDate());
         scheduledTransaction.setFee(fee);
         scheduledTransaction.setStatus(status);
-        repository.save(scheduledTransaction);
 
         return modelMapper.map(repository.save(scheduledTransaction), ScheduledTransactionDTO.class);
     }

@@ -16,11 +16,12 @@ For each submitted scheduled transaction, a fee will be applied based on the amo
 
 - Tools:
     - Maven
+    - Docker
+    - Postman
 
 - Development Tools:
     - Lombok
     - PgAdmin4
-    - Postman
 
 - Testing Frameworks:
     - JUnit
@@ -31,6 +32,9 @@ For each submitted scheduled transaction, a fee will be applied based on the amo
 # Getting Started
 
 ## Setting the Program Running
+
+At the program root, execute 'docker-compose up' to start containers for the program backend, database, and pgadmin client.  
+Once all containers are running, you can interact with the program using Postman or any other software capable of sending HTTP requests.
 
 ## Using the Program
 
@@ -46,7 +50,9 @@ Retrieve all scheduled transactions associated with a specific client account ID
 
 `http://localhost:8080/v1/transaction/allTransactions/<client_account_id>`
 
-Replace <client_account_id> with the desired client account ID.
+Replace <client_account_id> with the desired client account ID.  
+
+The database is already populated with records for a client account with ID 1. You can use this account or start by posting other transactions under an account ID of your choice.
 
 - **Add A New Scheduled Transaction**
 
@@ -70,7 +76,8 @@ Add a new scheduled transaction for a specific client account.
 ```
 
 Replace <client_account_id>, <your_desired_amount>, and <your_desired_due_date> with appropriate values.   
-<your_desired_due_date> must be in "yyyy-mm-dd format", for example: 2024-03-14.
+<your_desired_due_date> must be in "yyyy-mm-dd format", for example: 2024-03-14.  
+The application only accepts transactions of type "Transfer".
 
 - **Modify A Scheduled Transaction**
 
