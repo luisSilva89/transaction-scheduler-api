@@ -33,7 +33,7 @@ For each submitted scheduled transaction, a fee will be applied based on the amo
 
 ## Setting the Program Running
 
-At the program root, execute 'docker-compose up' to start containers for the program backend, database, and pgadmin client.  
+At the program root, execute `docker-compose up` to start containers for the program backend, database, and pgadmin client.  
 Once all containers are running, you can interact with the program using Postman or any other software capable of sending HTTP requests.
 
 ## Using the Program
@@ -83,7 +83,7 @@ The application only accepts transactions of type "Transfer".
 
 Modifies a scheduled transaction, as long as it is with status "Pending" and not "Executed"
 
-**Method:** POST
+**Method:** PUT
 
 **Endpoint**
 
