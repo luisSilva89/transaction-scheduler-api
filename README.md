@@ -34,7 +34,10 @@ For each submitted scheduled transaction, a fee will be applied based on the amo
 ## Setting the Program Running
 
 At the program root, execute `docker-compose up` to start containers for the program backend, database, and pgadmin client.  
-Once all containers are running, you can interact with the program using Postman or any other software capable of sending HTTP requests.
+Once all containers are running, you can interact with the program using Postman or any other software capable of sending HTTP requests.  
+You can access the PgAdmin client by navigating to `http://localhost:5050`.  
+`PGADMIN_DEFAULT_EMAIL: admin@admin.com`
+`PGADMIN_DEFAULT_PASSWORD: root`
 
 ## Using the Program
 
